@@ -21,4 +21,16 @@ public static class NumericExtensions
     {
         return Math.Max(Math.Abs(startPos.X - endPos.X), Math.Abs(startPos.Y - endPos.Y));
     }
+
+    public static bool IsWithinBounds(this (int X, int Y) pos, (int X, int Y) minPos, (int X, int Y) maxPos)
+    {
+        return minPos.X <= pos.X && pos.X <= maxPos.X
+            && minPos.Y <= pos.Y && pos.Y <= maxPos.Y;
+    }
+
+    public static bool IsOutsideBounds(this (int X, int Y) pos, (int X, int Y) minPos, (int X, int Y) maxPos)
+    {
+        return minPos.X > pos.X || pos.X > maxPos.X
+            || minPos.Y > pos.Y || pos.Y > maxPos.Y;
+    }
 }
