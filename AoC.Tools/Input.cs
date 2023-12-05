@@ -14,16 +14,19 @@ public static class Input
     public static string[] ReadAllLines(int day)
         => File.ReadAllLines(@$"..\..\..\..\data\day{day:00}.txt");
 
-    public static IEnumerable<T> ReadAllLinesTo<T>() where T : IParsable<T>
-        => ReadAll().Split(["\n", "\r\n"], StringSplitOptions.RemoveEmptyEntries)
+    public static IEnumerable<T> ReadAllLinesTo<T>(StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries) where T : IParsable<T>
+        => ReadAll().SplitLines(splitOptions)
                     .Select(x => T.Parse(x, null));
 
-    public static IEnumerable<T> ReadAllLinesTo<T>(int day) where T : IParsable<T>
-        => ReadAll(day).Split(["\n", "\r\n"], StringSplitOptions.RemoveEmptyEntries)
+    public static IEnumerable<T> ReadAllLinesTo<T>(int day, StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries) where T : IParsable<T>
+        => ReadAll(day).SplitLines(splitOptions)
                        .Select(x => T.Parse(x, null));
 
-    public static IEnumerable<T> SplitTo<T>(this string text) where T : IParsable<T>
-        => text.Split(["\n", "\r\n"], StringSplitOptions.RemoveEmptyEntries)
+    public static string[] SplitLines(this string text, StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries)
+        => text.Split(["\n", "\r\n"], splitOptions);
+
+    public static IEnumerable<T> SplitTo<T>(this string text, StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries) where T : IParsable<T>
+        => text.SplitLines(splitOptions)
                .Select(x => T.Parse(x, null));
 
     public static IEnumerable<T> SplitTo<T>(this string text, params string[] separators) where T : IParsable<T>
@@ -42,11 +45,11 @@ public static class Input
     public static string[] SplitOn(this string text, params char[] separators)
         => text.Split(separators, StringSplitOptions.None);
 
-    public static IEnumerable<string> ReadAsParagraphs()
-        => ReadAll().Split(["\n\n", "\r\n\r\n"], StringSplitOptions.RemoveEmptyEntries);
+    public static IEnumerable<string> ReadAsParagraphs(StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries)
+        => ReadAll().Split(["\n\n", "\r\n\r\n"], splitOptions);
 
-    public static IEnumerable<string> ReadAsParagraphs(int day)
-        => ReadAll(day).Split(["\n\n", "\r\n\r\n"], StringSplitOptions.RemoveEmptyEntries);
+    public static IEnumerable<string> ReadAsParagraphs(int day, StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries)
+        => ReadAll(day).Split(["\n\n", "\r\n\r\n"], splitOptions);
 
     public static T[,] ReadAsGrid<T>() where T : IParsable<T>
     {

@@ -133,6 +133,12 @@ public static partial class StringExtensions
     public static IEnumerable<int> ExtractInts(this string text) => NumbersOnlyRegex().Matches(text).Select(m => int.Parse(m.Value));
     public static IEnumerable<int> ExtractPositiveInts(this string text) => PositiveNumbersOnlyRegex().Matches(text).Select(m => int.Parse(m.Value));
 
+    public static IEnumerable<T> ExtractNumeric<T>(this string text) where T : IParsable<T>
+        => NumbersOnlyRegex().Matches(text).Select(m => T.Parse(m.Value, null));
+
+    public static IEnumerable<T> ExtractPositiveNumeric<T>(this string text) where T : IParsable<T>
+        => PositiveNumbersOnlyRegex().Matches(text).Select(m => T.Parse(m.Value, null));
+
     [GeneratedRegex(@"-?\d+")] private static partial Regex NumbersOnlyRegex();
 
     [GeneratedRegex(@"\d+")] private static partial Regex PositiveNumbersOnlyRegex();
