@@ -2,7 +2,7 @@
 
 public class Program
 {
-    private static string[] _input = Input.ReadAsParagraphs().ToArray();
+    private static readonly string[] _input = Input.ReadAsParagraphs().ToArray();
     static void Main()
     {
         Console.WriteLine($"Part 1: {Part1()}");
