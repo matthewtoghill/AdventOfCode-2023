@@ -42,20 +42,14 @@ public class Hand : IComparable<Hand>
     }
 
     private int GetHandScore()
-    {
-        if (IsFiveOfKind()) return 6;
-        if (IsFourOfKind()) return 5;
-        if (IsFullHouse()) return 4;
-        if (IsThreeOfKind()) return 3;
-        if (IsTwoPair()) return 2;
-        if (IsPair()) return 1;
-        return 0;
-    }
-
-    private bool IsFiveOfKind() => CardFrequencies.Count == 1;
-    private bool IsFourOfKind() => CardFrequencies.ContainsValue(4);
-    private bool IsFullHouse() => CardFrequencies.Count == 2 && CardFrequencies.ContainsValue(3);
-    private bool IsThreeOfKind() => CardFrequencies.Count == 3 && CardFrequencies.ContainsValue(3);
-    private bool IsTwoPair() => CardFrequencies.Count == 3 && CardFrequencies.Values.Where(x => x == 2).Count() == 2;
-    private bool IsPair() => CardFrequencies.Count == 4 && CardFrequencies.ContainsValue(2);
+        => CardFrequencies.Values.OrderDescending().ToArray() switch
+        {
+            [5] => 6,           // Five of a Kind
+            [4, 1] => 5,        // Four of a Kind
+            [3, 2] => 4,        // Full House
+            [3, 1, 1] => 3,     // Three of a Kind
+            [2, 2, 1] => 2,     // Two Pair
+            [2, 1, 1, 1] => 1,  // Pair
+            _ => 0              // High Card
+        };
 }
