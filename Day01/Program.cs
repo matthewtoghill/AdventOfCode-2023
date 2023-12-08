@@ -7,6 +7,7 @@ public class Program
     {
         Console.WriteLine($"Part 1: {_input.Sum(Part1)}");
         Console.WriteLine($"Part 2: {_input.Sum(Part2)}");
+        Console.WriteLine($"Part 2 alt: {Part2Alt()}");
     }
 
     private static readonly Dictionary<string, int> _digitMap = new()
@@ -50,4 +51,19 @@ public class Program
 
         return 10 * digits[0] + digits[^1];
     }
+
+    // alternative solution to part 2 using a string replace strategy
+    private static int Part2Alt()
+        => Input.ReadAll()
+                .Replace("one", "o1e")      //"one1one"
+                .Replace("two", "t2o")      //"two2two"
+                .Replace("three", "t3e")    //"three3three"
+                .Replace("four", "f4r")     //"four4four"
+                .Replace("five", "f5e")     //"five5five"
+                .Replace("six", "s6x")      //"six6six"
+                .Replace("seven", "s7n")    //"seven7seven"
+                .Replace("eight", "e8t")    //"eight8eight"
+                .Replace("nine", "n9e")     //"nine9nine"
+                .SplitLines()
+                .Sum(Part1);
 }
