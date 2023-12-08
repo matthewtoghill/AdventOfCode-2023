@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace AoC.Tools;
+﻿namespace AoC.Tools;
 
 public static class NumericExtensions
 {
