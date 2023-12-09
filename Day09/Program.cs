@@ -14,6 +14,7 @@ public class Program
     {
         List<int> firstNumbers = [];
         List<int> lastNumbers = [];
+
         foreach (var line in _input)
         {
             List<List<int>> gapSequences = [];
@@ -21,11 +22,7 @@ public class Program
             var current = line;
             while (true)
             {
-                List<int> differences = [];
-                for (int i = 1; i < current.Count; i++)
-                {
-                    differences.Add(current[i] - current[i - 1]);
-                }
+                var differences = current.EnumerateDifferences().ToList();
 
                 gapSequences.Add(differences);
                 if (differences.All(x => x == 0)) break;

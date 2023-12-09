@@ -50,4 +50,7 @@ public static class EnumerableExtensions
 
     public static bool IsAnyOf<T>(this T item, params T[] items)
         => items.Contains(item);
+
+    public static IEnumerable<T> EnumerateDifferences<T>(this IEnumerable<T> items) where T : INumber<T>
+        => items.Zip(items.Skip(1)).Select(x => x.Second - x.First);
 }
