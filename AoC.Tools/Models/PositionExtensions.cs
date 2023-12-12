@@ -17,4 +17,23 @@ public static class PositionExtensions
 
         return positions;
     }
+
+    public static int CalculateArea(this List<Position> positions)
+    {
+        var result = 0;
+        var zip = positions.Zip(positions.Skip(1));
+        foreach (var (a, b) in zip)
+        {
+            result += (a.X * b.Y) - (a.Y * b.X);
+        }
+
+        return Math.Abs(result);
+    }
+
+    public static int CountPositionsInsideArea(this List<Position> positions)
+    {
+        var count = positions.ToHashSet().Count;
+        var area = CalculateArea(positions);
+        return 1 + (area - count) / 2;
+    }
 }
