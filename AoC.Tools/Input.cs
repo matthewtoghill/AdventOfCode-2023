@@ -1,4 +1,6 @@
-﻿namespace AoC.Tools;
+﻿using System.Text;
+
+namespace AoC.Tools;
 
 public static class Input
 {
@@ -50,6 +52,23 @@ public static class Input
 
     public static IEnumerable<string> ReadAsParagraphs(int day, StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries)
         => ReadAll(day).Split(["\n\n", "\r\n\r\n"], splitOptions);
+
+    public static IEnumerable<string> SplitIntoColumns(this string text)
+    {
+        var rows = text.SplitLines();
+        var cols = rows[0].Length;
+        List<string> result = [];
+        for (int i = 0; i < cols; i++)
+        {
+            StringBuilder sb = new();
+            foreach (var row in rows)
+            {
+                sb.Append(row[i]);
+            }
+            result.Add(sb.ToString());
+        }
+        return result;
+    }
 
     public static T[,] ReadAsGrid<T>() where T : IParsable<T>
     {
