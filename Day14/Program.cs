@@ -87,23 +87,17 @@ public class Program
     }
 
     private static int CalculateLoad(Dictionary<Position, char> rocks, int maxRow)
-    {
-        var result = 0;
-        var roundRocks = rocks.Where(x => x.Value == 'O').Select(x => x.Key.Y).ToList();
-        roundRocks.ForEach(x => result += maxRow + 1 - x);
-        return result;
-    }
+        => rocks.Where(rock => rock.Value == 'O')
+                .Select(rock => rock.Key.Y)
+                .GetFrequencies()
+                .Sum(row => (maxRow + 1 - row.Key) * row.Value);
 
     private static Dictionary<Position, char> LoadMap()
     {
         Dictionary<Position, char> rocks = [];
         for (int row = 0; row < _input.Length; row++)
-        {
             for (int col = 0; col < _input[row].Length; col++)
-            {
                 rocks.Add(new Position(col, row), _input[row][col]);
-            }
-        }
 
         return rocks;
     }
