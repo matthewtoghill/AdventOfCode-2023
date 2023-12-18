@@ -29,14 +29,14 @@ public class Program
 
     private static Dig Part1Parser(string line)
     {
-        var split = line.Split([" ", "(", ")"], StringSplitOptions.RemoveEmptyEntries);
+        var split = line.Split();
         return new(split[0][0], long.Parse(split[1]));
     }
 
     private static Dig Part2Parser(string line)
     {
-        var colour = line.Split([" ", "(", ")"], StringSplitOptions.RemoveEmptyEntries)[2];
-        return new(GetDirection(colour[^1]), Convert.ToInt64(colour[1..^1], 16));
+        var colour = line.Split([" ", "(", ")", "#"], StringSplitOptions.RemoveEmptyEntries)[2];
+        return new(GetDirection(colour[^1]), Convert.ToInt64(colour[..5], 16)); //
     }
 
     private static char GetDirection(char val)
