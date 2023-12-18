@@ -14,8 +14,8 @@ public class Program
     private static int Solve(int maxCycles, string directions)
     {
         var map = LoadMap();
-        var maxRow = map.Keys.MaxBy(x => x.Y).Y;
-        var maxCol = map.Keys.MaxBy(x => x.X).X;
+        var maxRow = map.Keys.MaxBy(x => x.Row).Row;
+        var maxCol = map.Keys.MaxBy(x => x.Col).Col;
 
         var cycle = 1;
         Dictionary<string, int> cache = [];
@@ -67,10 +67,10 @@ public class Program
         while (true)
         {
             var newPos = currentPos.MoveInDirection(direction);
-            if (direction == 'N' && newPos.Y < 0) return;
-            if (direction == 'W' && newPos.X < 0) return;
-            if (direction == 'S' && newPos.Y > maxRow) return;
-            if (direction == 'E' && newPos.X > maxCol) return;
+            if (direction == 'N' && newPos.Row < 0) return;
+            if (direction == 'W' && newPos.Col < 0) return;
+            if (direction == 'S' && newPos.Row > maxRow) return;
+            if (direction == 'E' && newPos.Col > maxCol) return;
             if (map.TryGetValue(newPos, out var nextRock) && "O#".Contains(nextRock)) return;
 
             map[newPos] = 'O';
@@ -88,7 +88,7 @@ public class Program
 
     private static int CalculateLoad(Dictionary<Position, char> rocks, int maxRow)
         => rocks.Where(rock => rock.Value == 'O')
-                .Select(rock => rock.Key.Y)
+                .Select(rock => rock.Key.Row)
                 .GetFrequencies()
                 .Sum(row => (maxRow + 1 - row.Key) * row.Value);
 

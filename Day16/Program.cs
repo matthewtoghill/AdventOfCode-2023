@@ -37,21 +37,19 @@ public class Program
     private static int CountEnergized(int startRow, int startCol, char direction)
     {
         var start = new Photon(new Position(startCol, startRow), direction);
+        var maxBounds = new Position(_input[0].Length - 1, _input.Length - 1);
         var queue = new Queue<Photon>([start]);
         var visited = new HashSet<Photon>();
-
-        var maxRow = _input.Length;
-        var maxCol = _input[0].Length;
 
         while (queue.Count > 0)
         {
             var current = queue.Dequeue();
             var nextPos = current.Position.MoveInDirection(current.Direction);
 
-            if (nextPos.X < 0 || nextPos.Y < 0 || nextPos.X >= maxCol || nextPos.Y >= maxRow)
+            if (nextPos.IsOutsideBounds(new(0, 0), maxBounds))
                 continue;
 
-            var nextDirections = GetNextDirections(_input[nextPos.Y][nextPos.X], current.Direction);
+            var nextDirections = GetNextDirections(_input[nextPos.Row][nextPos.Col], current.Direction);
             foreach (var dir in nextDirections)
             {
                 var nextPhoton = new Photon(nextPos, dir);
@@ -71,7 +69,7 @@ public class Program
             ('.', _) or ('|', 'N') or ('|', 'S') or ('-', 'E') or ('-', 'W') => [direction],
             ('|', 'E') or ('|', 'W') => ['N', 'S'],
             ('-', 'N') or ('-', 'S') => ['E', 'W'],
-            ('\\', 'N') or ('/', 'S')=> ['W'],
+            ('\\', 'N') or ('/', 'S') => ['W'],
             ('\\', 'S') or ('/', 'N') => ['E'],
             ('\\', 'E') or ('/', 'W') => ['S'],
             ('\\', 'W') or ('/', 'E') => ['N'],

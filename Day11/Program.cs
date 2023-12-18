@@ -48,19 +48,19 @@ public class Program
         return galaxies;
     }
 
-    private static HashSet<int> GetEmptyRows(List<Position> galaxies) => Enumerable.Range(0, _input.Length).Except(galaxies.Select(g => g.Y)).ToHashSet();
-    private static HashSet<int> GetEmptyCols(List<Position> galaxies) => Enumerable.Range(0, _input[0].Length).Except(galaxies.Select(g => g.X)).ToHashSet();
+    private static HashSet<int> GetEmptyRows(List<Position> galaxies) => Enumerable.Range(0, _input.Length).Except(galaxies.Select(x => x.Row)).ToHashSet();
+    private static HashSet<int> GetEmptyCols(List<Position> galaxies) => Enumerable.Range(0, _input[0].Length).Except(galaxies.Select(x => x.Col)).ToHashSet();
 
     private static long GetDistance(Position a, Position b, HashSet<int> rows, HashSet<int> cols, long expandAmount)
     {
         long distance = a.ManhattanDistance(b);
 
-        for (int col = Math.Min(a.X, b.X); col < Math.Max(a.X, b.X); col++)
+        for (int col = Math.Min(a.Col, b.Col); col < Math.Max(a.Col, b.Col); col++)
         {
             if (cols.Contains(col)) distance += expandAmount;
         }
 
-        for (int row = Math.Min(a.Y, b.Y); row < Math.Max(a.Y, b.Y); row++)
+        for (int row = Math.Min(a.Row, b.Row); row < Math.Max(a.Row, b.Row); row++)
         {
             if (rows.Contains(row)) distance += expandAmount;
         }

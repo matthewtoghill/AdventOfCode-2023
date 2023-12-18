@@ -44,12 +44,11 @@ public class Program
                 if (current.RunLength == maxRunLength && current.Direction == direction) continue;
 
                 var nextPosition = current.Position.MoveInDirection(direction);
-                if (nextPosition.X < 0 || nextPosition.Y < 0 || nextPosition.X > end.X || nextPosition.Y > end.Y)
-                    continue;
+                if (nextPosition.IsOutsideBounds(new(0, 0), end)) continue;
 
                 var runLength = direction == current.Direction ? current.RunLength + 1 : 1;
                 var nextState = new State(nextPosition, direction, runLength);
-                var cost = currentCost + _input[nextPosition.Y, nextPosition.X];
+                var cost = currentCost + _input[nextPosition.Row, nextPosition.Col];
 
                 if (!distances.TryGetValue(nextState, out int value) || cost < value)
                 {

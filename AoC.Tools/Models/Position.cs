@@ -4,33 +4,32 @@ public readonly struct Position
 {
     public readonly int X;
     public readonly int Y;
+    public int Row => Y;
+    public int Col => X;
 
-    public Position(int x, int y)
-    {
-        X = x;
-        Y = y;
-    }
+    public Position(int x, int y) => (X, Y) = (x, y);
+    public Position((int x, int y) pos) => (X, Y) = (pos.x, pos.y);
 
-    public Position MoveInDirection(char direction)
+    public Position MoveInDirection(char direction, int distance = 1)
     {
         return char.ToLower(direction) switch
         {
-            'u' or '^' or 'n' => new(X, Y - 1),
-            'd' or 'v' or 's' => new(X, Y + 1),
-            'l' or '<' or 'w' => new(X - 1, Y),
-            'r' or '>' or 'e' => new(X + 1, Y),
+            'u' or '^' or 'n' => new(X, Y - distance),
+            'd' or 'v' or 's' => new(X, Y + distance),
+            'l' or '<' or 'w' => new(X - distance, Y),
+            'r' or '>' or 'e' => new(X + distance, Y),
             _ => new(X, Y),
         };
     }
 
-    public Position MoveInOppositeDirection(char direction)
+    public Position MoveInOppositeDirection(char direction, int distance = 1)
     {
         return char.ToLower(direction) switch
         {
-            'u' or '^' or 'n' => new(X, Y + 1),
-            'd' or 'v' or 's' => new(X, Y - 1),
-            'l' or '<' or 'w' => new(X + 1, Y),
-            'r' or '>' or 'e' => new(X - 1, Y),
+            'u' or '^' or 'n' => new(X, Y + distance),
+            'd' or 'v' or 's' => new(X, Y - distance),
+            'l' or '<' or 'w' => new(X + distance, Y),
+            'r' or '>' or 'e' => new(X - distance, Y),
             _ => new(X, Y),
         };
     }
@@ -64,6 +63,10 @@ public readonly struct Position
     public bool IsBetween(Position min, Position max)
         => min.X <= X && X <= max.X
         && min.Y <= Y && Y <= max.Y;
+
+    public bool IsOutsideBounds(Position min, Position max)
+        => min.X > X || X > max.X
+        || min.Y > Y || Y > max.Y;
 
     public IEnumerable<Position> GetNeighbours(bool includeDiagonal = false) => includeDiagonal ? GetAllNeighbours() : GetAdjacent();
 
