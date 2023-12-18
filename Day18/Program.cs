@@ -7,50 +7,36 @@ public class Program
     private static readonly string[] _input = Input.ReadAllLines();
     static void Main()
     {
-        Console.WriteLine($"Part 1: {Part1()}");
-        Console.WriteLine($"Part 2: {Part2()}");
+        Console.WriteLine($"Part 1: {Solve(_input.Select(Part1Parser).ToList())}");
+        Console.WriteLine($"Part 2: {Solve(_input.Select(Part2Parser).ToList())}");
     }
 
-    private static long Part1()
+    private static long Solve(List<Dig> instructions)
     {
-        var current = (0L, 0L);
-        var grid = new List<(long, long)> { current };
-        var perimeter = 0;
+        (long, long) current = (0, 0);
+        List<(long, long)> grid = [current];
+        long perimeter = 0;
 
-        foreach (var line in _input)
+        foreach (var item in instructions)
         {
-            var split = line.Split([" ", "(", ")"], StringSplitOptions.RemoveEmptyEntries);
-            var direction = split[0][0];
-            var distance = int.Parse(split[1]);
-
-            current = current.MoveInDirection(direction, distance);
-            perimeter += distance;
+            current = current.MoveInDirection(item.Direction, item.Distance);
+            perimeter += item.Distance;
             grid.Add(current);
         }
 
         return (grid.CalculateArea() + perimeter) / 2 + 1;
     }
 
-    private static long Part2()
+    private static Dig Part1Parser(string line)
     {
-        var current = (0L, 0L);
-        var grid = new List<(long, long)> { current };
-        var perimeter = 0L;
+        var split = line.Split([" ", "(", ")"], StringSplitOptions.RemoveEmptyEntries);
+        return new(split[0][0], long.Parse(split[1]));
+    }
 
-        foreach (var line in _input)
-        {
-            var split = line.Split([" ", "(", ")"], StringSplitOptions.RemoveEmptyEntries);
-            var colour = split[2];
-            var direction = GetDirection(colour[^1]);
-            var distance = Convert.ToInt64(colour[1..^1], 16);
-
-            current = current.MoveInDirection(direction, distance);
-            perimeter += distance;
-            grid.Add(current);
-        }
-
-
-        return (grid.CalculateArea() + perimeter) / 2 + 1;
+    private static Dig Part2Parser(string line)
+    {
+        var colour = line.Split([" ", "(", ")"], StringSplitOptions.RemoveEmptyEntries)[2];
+        return new(GetDirection(colour[^1]), Convert.ToInt64(colour[1..^1], 16));
     }
 
     private static char GetDirection(char val)
@@ -63,3 +49,5 @@ public class Program
             _ => throw new NotImplementedException()
         };
 }
+
+public record Dig(char Direction, long Distance);
