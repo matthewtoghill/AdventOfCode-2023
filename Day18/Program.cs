@@ -24,7 +24,7 @@ public class Program
             grid.Add(current);
         }
 
-        return (grid.CalculateArea() + perimeter) / 2 + 1;
+        return 1 + (grid.CalculateArea() + perimeter) / 2;
     }
 
     private static Dig Part1Parser(string line)
@@ -36,7 +36,7 @@ public class Program
     private static Dig Part2Parser(string line)
     {
         var colour = line.Split([" ", "(", ")", "#"], StringSplitOptions.RemoveEmptyEntries)[2];
-        return new(GetDirection(colour[^1]), Convert.ToInt64(colour[..5], 16)); //
+        return new(GetDirection(colour[^1]), Convert.ToInt64(colour[..5], 16));
     }
 
     private static char GetDirection(char val)
