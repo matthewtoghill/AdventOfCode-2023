@@ -73,7 +73,7 @@ public class Program
             ('\\', 'S') or ('/', 'N') => ['E'],
             ('\\', 'E') or ('/', 'W') => ['S'],
             ('\\', 'W') or ('/', 'E') => ['N'],
-            _ => throw new NotImplementedException()
+            _ => throw new NotSupportedException()
         };
 }
 

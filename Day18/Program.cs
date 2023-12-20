@@ -46,7 +46,7 @@ public class Program
             '1' => 'D',
             '2' => 'L',
             '3' => 'U',
-            _ => throw new NotImplementedException()
+            _ => throw new NotSupportedException()
         };
 }
 
