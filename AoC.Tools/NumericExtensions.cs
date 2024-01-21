@@ -7,6 +7,9 @@ public static class NumericExtensions
         return min.CompareTo(value) <= 0 && value.CompareTo(max) <= 0;
     }
 
+    public static int Mod(this int num, int divisor) => ((num %= divisor) < 0) ? num + divisor : num;
+    public static long Mod(this long num, long divisor) => ((num %= divisor) < 0) ? num + divisor : num;
+
     public static long GreatestCommonFactor(int x, int y)
     {
         var b = Math.Max(x, y);
