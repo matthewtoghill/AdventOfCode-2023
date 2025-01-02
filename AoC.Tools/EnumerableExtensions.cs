@@ -17,6 +17,14 @@ public static class EnumerableExtensions
             action(item, index++);
     }
 
+    public static IEnumerable<bool> CompareAll<T>(this IEnumerable<T> items, Func<T, T, bool> predicate)
+    {
+        var itemArray = items.ToArray();
+        for (int i = 0; i < itemArray.Length; i++)
+            for (int j = i + 1; j < itemArray.Length; j++)
+                yield return predicate(itemArray[i], itemArray[j]);
+    }
+
     public static IEnumerable<T> ApplyEach<T>(this IEnumerable<T> items, Action<T> action)
     {
         foreach (T item in items)
