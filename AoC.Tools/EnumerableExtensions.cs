@@ -61,4 +61,7 @@ public static class EnumerableExtensions
 
     public static IEnumerable<T> EnumerateDifferences<T>(this IEnumerable<T> items) where T : INumber<T>
         => items.Zip(items.Skip(1)).Select(x => x.Second - x.First);
+
+    public static T RandomElement<T>(this IEnumerable<T> items)
+        => items.ElementAt(Random.Shared.Next(items.Count()));
 }
