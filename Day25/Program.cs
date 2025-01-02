@@ -22,10 +22,7 @@ public class Program
                 graph.Values.RandomElement().MergeRandomConnection(graph);
 
             if (graph.Values.All(x => x.Connections.Count == requiredCutSize))
-            {
-                Console.WriteLine($"Took: {iterations} iterations");
                 return graph.Values.Select(x => x.Value).Product();
-            }
         }
     }
 
